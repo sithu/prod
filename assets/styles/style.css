@@ -1,0 +1,34 @@
+body {
+background-color: #eeeeff;
+font-family: Helvetica, Arial, sans-serif;
+font-weight: lighter;
+}
+div#depsList {
+width: 350px;
+}
+.fc-field {
+margin: 0 0 0 0;
+padding: 5px;
+font-size: 1.0em;
+width: 120px;
+outline: #777777 ridge thin;
+background-color: #cccccc;
+}
+.fc-selected {
+background-color: #999999;
+}
+.fc-field-list {
+margin: 0;
+padding: 3px 3px 3px 3px;
+margin-right: 10px;
+outline: #333333 solid thin;
+height: 400px;
+width: 170px;
+overflow: scroll;
+}
+.fc-source-fields {
+float: left;
+}
+.fc-destination-fields {
+float: left;
+}

@@ -1,0 +1,85 @@
+<h2>Service List</h2>
+Just a placeholder, needs work, model after the BOM new page.
+<table>
+    <tr>
+        <td>
+            <h3>Available Services</h3>
+        </td>
+        <td>
+            <h3>New Service Dependencies</h3>
+        </td>
+    </tr>
+    <tr>
+        <td>     
+            <table border="1" class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Version</th>
+                    </tr>
+                </thead>
+                <tbody id="servicesTable"></tbody>
+            </table>
+        </td>
+        <td>
+            <table border="1" class="table">
+                <tr><td>foo</td></tr>
+                <tr><td>bar</td></tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td><button onclick="serviceView.clear(); serviceView.load()">Refresh List</button></td>
+        <td><button onclick="serviceView.clear()">Clear List</button></td>
+    </tr>
+</table>
+
+<script>
+    var ServiceModel = Backbone.Model.extend({
+        urlRoot: '/api/v1/service'
+    });
+ 
+    var ServiceCollection = Backbone.Collection.extend({
+        url: '/api/v1/service',
+        model: ServiceModel,
+        comparator: 'name'
+    });
+ 
+    _.templateSettings = {
+        interpolate : /\{\{(.+?)\}\}/g
+    };
+    
+    var ServicesView = Backbone.View.extend({
+        el: '#servicesTable',
+        initialize: function () {
+            _.bindAll(this);
+        },
+          clear: function() {
+            this.$el.html('');
+        },
+        load : function(){
+            this.collection.fetch({
+              success: this.loadCompleteHandler,
+              error: this.errorHandler
+            });
+        }, 
+        loadCompleteHandler : function(){
+            this.render();
+        },
+        errorHandler : function(){
+            throw "Error loading JSON file";
+        },
+        template: _.template("<tr><td><a href=\"/api/v1/service/{{id}}\">{{ name }}</a></td><td>{{version}}</td></tr>"),
+        render: function () {
+            this.collection.each(function(service) {
+                this.$el.append(this.template(service.toJSON()));
+            }, this);
+        }
+    });
+     
+    var services = new ServiceCollection();
+    
+    var serviceView = new ServicesView({collection: services});
+    serviceView.load();
+    
+</script>

@@ -1,0 +1,110 @@
+<link rel="stylesheet" type="text/css" href="/styles/style.css" />
+
+<h2>Create new BOM</h2>
+<div id="bomInfo">
+    <textarea id="bomName"></textarea>   <textarea id="bomVersion"></textarea>
+</div>
+<div id="errorText"></div>
+<button onclick="newBomView.save()">Create BOM</button>
+<button id="editButton" onclick="editBom()">Edit BOM</button>
+<h3>Select dependencies:</h3>
+<table style="width:450; text-align:left">
+    <tr><th>Available Components</th><th>Dependencies</th></tr>
+    <tr><td colspan="2"><div id="depsChooser"></div></td></tr>
+</table>
+
+<div id="sourceList"></div>
+
+<script>
+    var BOMModel = Backbone.Model.extend({
+        urlRoot: '/api/v1/bom'
+    });
+    
+    var BOMCollection = Backbone.Collection.extend({
+        url: '/api/v1/bom',
+        model: BOMModel,
+        comparator: 'name'
+    });
+ 
+    _.templateSettings = {
+        interpolate : /\{\{(.+?)\}\}/g
+    };
+    
+    var BOMNewView = Backbone.View.extend({
+        el: "#depsChooser",
+        initialize: function () {
+            _.bindAll(this);
+        },
+        save : function() {
+            this.model = new BOMModel();
+            this.model.set('name', $('#bomName').val());
+            this.model.set('version', $('#bomVersion').val());
+            var deps = [];
+            chooser.getDestinationList().children().each(function() {
+                console.log("dpe is " + $(this).text());
+                var data = $(this).text().split(",");
+                deps.push({name: $.trim(data[0]), version: $.trim(data[1])});
+            });
+            this.model.set('deps', deps);
+            this.model.save( null, {
+              success: this.saveCompleteHandler,
+              error: this.errorHandler
+            });
+        },
+        saveCompleteHandler : function(){
+            $("#errorText").html("BOM successfully saved with ID: " + this.model.id);
+            $("#editButton").show();
+            this.render();
+        },
+        errorHandler: function(model, response) {
+            console.log("Error saving BOM: " + response.responseText);
+            $("#errorText").html("Error saving BOM: " + response.responseText);
+        },
+        render: function () {
+            return this;
+        }
+    });
+    
+    var BOMDepsView = Backbone.View.extend({
+        el: "#depsChooser",
+        initialize: function () {
+            _.bindAll(this);
+        },
+        load : function(){
+            this.collection.fetch( {
+              success: this.loadCompleteHandler,
+              error: this.errorHandler
+            });
+        }, 
+        template: _.template("<div>{{ name }}, {{version}}</div>"),
+        loadCompleteHandler : function() {
+            chooser = $("#depsChooser").fieldChooser();
+            var list = chooser.getSourceList();
+            this.collection.each(function(bom) {
+                $("#sourceList").append(this.template(bom.toJSON()));
+            }, this);
+            list.add($("#sourceList").children());
+            this.render();
+        },
+        errorHandler: function(model, response) {
+            console.log("Error loading BOM list: " + response.responseText);
+            $("#errorText").html("Error loading BOM list: " + response.responseText);
+        },
+        render: function() {
+            return this;
+        }
+    });
+    
+    var newBomView = new BOMNewView();
+    
+    var boms = new BOMCollection();
+    var bomDepsView = new BOMDepsView({collection: boms});
+    var chooser;
+    
+    $("#editButton").hide();
+    bomDepsView.load();
+    
+    function editBom() {
+        window.location = "/view/bom/gedit/" + newBomView.model.id;
+    }
+</script>

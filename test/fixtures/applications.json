@@ -1,0 +1,7 @@
+{
+	"app_name": "Foo App",
+	"app_id": "fooapp",
+	"config": {
+		"key" : "value"
+	}
+}

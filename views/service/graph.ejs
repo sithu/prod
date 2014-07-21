@@ -1,0 +1,41 @@
+<style>
+    #graph-container {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+      }
+</style>
+
+<h2>Service Graph</h2>
+<h3 id = "node-name"><%= name %> in <%= env %></h3>
+<div id="graph-container"></div>
+<script src="/js/libs/sigma.min.js"></script>
+<script src="/js/libs/sigma_plugins/sigma.parsers.json.min.js"></script>
+<script src="/js/libs/sigma_plugins/sigma.layout.forceAtlas2.min.js"></script>
+
+<script>
+  var s = new sigma({
+    container: 'graph-container'
+  });
+  s.bind('clickNode', function(e) {
+    $('#node-name').html('');
+    $('#node-name').append(e.data.node.label + " in " + e.data.node.environment);
+    s.stopForceAtlas2();
+    sigma.parsers.json(
+      '/api/v1/service/graph_list?name='+e.data.node.label+'&environment='+e.data.node.environment,
+      s,
+      function () {
+          s.startForceAtlas2();
+      }
+    );
+  });
+  sigma.parsers.json(
+    '/api/v1/service/graph_list?name=<%= name %>&environment=<%= env %>',
+    s,
+    function () {
+        s.startForceAtlas2();
+    }
+  );
+</script>
