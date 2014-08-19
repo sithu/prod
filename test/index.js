@@ -13,10 +13,10 @@ before(function (done) {
     },
     adapters: {
       mongo: {
-        module: 'sails-mongo',
+        module: 'sails-postgresql',
         host: 'localhost',
-        database: 'hydra',
-        user: null,
+        database: 'prod',
+        user: 'saung',
         pass: null
       }
     }
@@ -35,6 +35,7 @@ before(function (done) {
 // Global after hook
 after(function (done) {
    // delete all test data
+   /*
    Application.findOne({ app_id : 'test' })
    .done(function(err, app) {
       var id = app.id;
@@ -54,6 +55,8 @@ after(function (done) {
       }); // Application.destroy.done()
 
    }); // Application.findOne.done()
+*/
+  sails.lower(done);
 });
 
 describe('Basic', function(done) {
@@ -63,18 +66,17 @@ describe('Basic', function(done) {
   });
 });
 
-// Global variable to store 'test' application id
-var ID; 
-
-describe('Application', function(done) {
-  it("should be able to create application", function(done) {
-    Application.create({
-         app_id: "test", 
-         app_name: "Test App", 
-         config: { key : "value" } 
-      }, function(err, app) {
-         assert.notEqual(app, undefined);
-         ID = app.id;
+describe('RawMaterial', function(done) {
+  it("should be able to create RawMaterial", function(done) {
+    RawMaterial.create({
+         name: "Test RawMaterial", 
+         weight: 25, 
+         count: 10,
+         cost: 1000.00,
+         color: 'BLUE'
+      }, function(err, rawMaterial) {
+         assert.notEqual(rawMaterial, undefined);
+         console.log(rawMaterial);
          done();
     });
   });
@@ -87,6 +89,7 @@ describe('Home page', function(done) {
    });
 });
 
+/*
 describe('Property', function() {
    describe('Add Property', function(done) {
       it('POST /api/v1/application/:id/property should return 200', function (done) {
@@ -118,55 +121,7 @@ describe('Property', function() {
       });
    });
 });
-
-describe('Activity', function(done) {
-
-   describe('Create Activity', function(done) {
-      it('should be able to create activity', function(done) {
-         Application.findOne({ app_id : "test" })
-         .done(function(err, app) {
-            // add new property to the application
-            var _new_key = "key1";
-            app.config[_new_key] = "value1";
-            app.save(function(err) {
-               return new Error('Failed to add new property');
-            })
-            .done(function(app) {
-               // create new activity
-               Activity.create({
-                  app_id      : app.id,
-                  action      : 'add',
-                  key         : 'key1',
-                  to_value    : 'value1',
-                  changed_by  : 'admin',
-                  version     : app.version - 1,
-                  timestamp   : app.updatedAt
-               })
-               .done(function(err, activity) {
-                  done();
-               }); // Activity.create() - end
-
-            }); // app.save#done() - end
-         });
-      });
-   });
-
-   describe('Get All Activities', function(done) {
-      it('GET /api/v1/activity should return all activities', function (done) {
-         request(sails.hooks.http.app)
-         .get('/api/v1/activity')
-         .set('Accept', 'application/json')
-         .expect('Content-Type', /json/)
-         .expect(200)
-         .end(function(err, res) {
-            if (err) return done(err);
-            if(res.body.length == 0) throw new Error('Expected at least activity');
-            done();
-         });
-      });
-   });
-
-}); // end of 'Activity'
+*/
 
 
 /*

@@ -26,13 +26,13 @@ module.exports.connections = {
   // Run:
   // npm install sails-mongo
   //
-  hydraMongodbServer: {
-    adapter   : 'sails-mongo',
+  prodPostgresServer: {
+    adapter   : 'sails-postgresql',
     host      : 'localhost',
-    port      : 27017,
-    user      : null,
+    port      : 5432,
+    user      : 'saung',
     password  : null,
-    database  : 'hydra'
+    database  : 'prod'
   },
 
   // More adapters:
