@@ -34,7 +34,8 @@ module.exports = {
         comment : { type: 'string' },
 
         forOrder : {
-            model : 'Order'
+            model : 'Order',
+            columnName: 'order_id'
         }
     }
 };

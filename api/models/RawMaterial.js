@@ -20,7 +20,8 @@ module.exports = {
    	color : { type: 'string' },
 
    	forProduct: {
-   		model: 'Product'
+   		model: 'Product',
+      columnName: 'product_id'
    	}
   }
 };

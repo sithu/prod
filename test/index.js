@@ -66,26 +66,100 @@ describe('Basic', function(done) {
   });
 });
 
+var RAW_MATERIAL_ID, PRODUCT_ID;
+
+describe('Product', function(done) {
+   it('should be able to create Product', function(done) {
+      Product.create({
+         name : 'Blue Chair',
+         type : 'CHAIR',
+         timeToBuildInSec : 60,
+         weight : 5,
+         price : 1000.00,
+         color : 'BLUE',
+      }, 
+      function(err, product) {
+         assert.notEqual(product, undefined);
+         console.log(product);
+         PRODUCT_ID = product.id;
+         assert(product.id > 0, 'Newly inserted Product id must be an integer');
+         Product.findOne(product.id).exec(
+            function(err, actual) {
+               assert.equal(actual.id, product.id);
+               assert.equal(actual.name, product.name);
+               done();
+         });
+      }); // end - Product.create()
+   }); // end - it
+});
+
 describe('RawMaterial', function(done) {
-  it("should be able to create RawMaterial", function(done) {
-    RawMaterial.create({
-         name: "Test RawMaterial", 
+   it("should be able to create RawMaterial", function(done) {
+      RawMaterial.create({
+         name: 'Marble', 
          weight: 25, 
          count: 10,
          cost: 1000.00,
-         color: 'BLUE'
-      }, function(err, rawMaterial) {
+         color: 'BLUE',
+         forProduct: PRODUCT_ID
+      }, 
+      function(err, rawMaterial) {
          assert.notEqual(rawMaterial, undefined);
          console.log(rawMaterial);
-         done();
-    });
-  });
+         RAW_MATERIAL_ID = rawMaterial.id;
+         assert(rawMaterial.id > 0, 'Newly inserted RawMaterial id must be an integer');
+         RawMaterial.findOne(rawMaterial.id).populate('forProduct').exec(function(err, actual) {
+            console.log(actual);
+            assert.equal(actual.id, rawMaterial.id);
+            assert.equal(actual.name, rawMaterial.name);
+            // checking forProduct relationship
+            assert.equal(actual.forProduct.id, PRODUCT_ID);
+            assert.equal(actual.forProduct.name, 'Blue Chair');
+            done();
+         });
+      });
+   });
 });
 
+//###################### REST API Tests ################################
 describe('Home page', function(done) {
    it('GET / should return 200', function (done) {
       request(sails.hooks.http.app)
       .get('/').expect(200, done);
+   });
+});
+
+describe('Add Product API', function(done) {
+   it('POST /api/v1/product should return 200', function (done) {
+      request(sails.hooks.http.app)
+      .post('/api/v1/product')
+      .set('Accept', 'application/json')
+      .send({
+         name : 'Green Chair',
+         type : 'CHAIR',
+         timeToBuildInSec : 60,
+         weight : 4,
+         price : 500.00,
+         color : 'GREEN',
+      })
+      .expect(200, done);
+   });
+});
+
+describe('Add RawMaterial API', function(done) {
+   it('POST /api/v1/rawmaterial should return 200', function (done) {
+      request(sails.hooks.http.app)
+      .post('/api/v1/rawmaterial')
+      .set('Accept', 'application/json')
+      .send({
+         name: 'Marble', 
+         weight: 25, 
+         count: 10,
+         cost: 1000.00,
+         color: 'GREEN',
+         forProduct: 2
+      })
+      .expect(200, done);
    });
 });
 

@@ -26,7 +26,8 @@ module.exports = {
    	comment : { type: 'string' },
 
    	forProduct : {
-   		model: 'Product'
+   		model: 'Product',
+         columnName: 'product_id'
    	},
 
    	productionEntries : {
