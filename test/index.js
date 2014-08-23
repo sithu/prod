@@ -66,15 +66,17 @@ describe('Basic', function(done) {
   });
 });
 
-var RAW_MATERIAL_ID, PRODUCT_ID;
+//###################### DB CRUD Tests ################################
+var PRODUCT_ID, RAW_MATERIAL_ID, ORDER_ID;
 
-describe('Product', function(done) {
-   it('should be able to create Product', function(done) {
+// STEP 1 - Create Product
+describe('#### Product ####', function(done) {
+   it('create()', function(done) {
       Product.create({
          name : 'Blue Chair',
          type : 'CHAIR',
-         timeToBuildInSec : 60,
-         weight : 5,
+         timeToBuildInSec : 30,
+         weight : 2.5,
          price : 1000.00,
          color : 'BLUE',
       }, 
@@ -93,12 +95,13 @@ describe('Product', function(done) {
    }); // end - it
 });
 
-describe('RawMaterial', function(done) {
-   it("should be able to create RawMaterial", function(done) {
+// STEP 2 - Create Raw Material
+describe('#### RawMaterial ####', function(done) {
+   it("create()", function(done) {
       RawMaterial.create({
          name: 'Marble', 
          weight: 25, 
-         count: 10,
+         count: 200,
          cost: 1000.00,
          color: 'BLUE',
          forProduct: PRODUCT_ID
@@ -109,6 +112,8 @@ describe('RawMaterial', function(done) {
          RAW_MATERIAL_ID = rawMaterial.id;
          assert(rawMaterial.id > 0, 'Newly inserted RawMaterial id must be an integer');
          RawMaterial.findOne(rawMaterial.id).populate('forProduct').exec(function(err, actual) {
+            if(err) return done(err);
+
             console.log(actual);
             assert.equal(actual.id, rawMaterial.id);
             assert.equal(actual.name, rawMaterial.name);
@@ -120,6 +125,54 @@ describe('RawMaterial', function(done) {
       });
    });
 });
+
+// STEP 3 - Create Order
+
+describe('#### New Order ####', function(done) {
+   it('create()', function(done) {
+      Order.create({
+         name : 'New Chair Regular Order',
+         quantity : 1000,
+         forProduct : PRODUCT_ID
+      }, 
+      function(err, order) {
+         assert.notEqual(order, undefined);
+         console.log(order);
+         ORDER_ID = order.id;
+         assert(order.id > 0, 'New order id must be an integer');
+         Order.findOne(order.id).exec(
+            function(err, actual) {
+               if(err) return done(err);
+
+               assert.equal(actual.id, order.id);
+               assert.equal(actual.name, order.name);
+               // checking default status
+               assert.equal('WAITING_FOR_PRODUCTION', actual.status);
+               done();
+         });
+      }); // end - Product.create()
+   }); // end - it
+}); // end New Order
+
+describe('#### Update Order ####', function(done) {
+   it('update()', function(done) {
+      Order.update({ id : ORDER_ID }, { status : 'IN_PRODUCTION' }).exec(
+         function(err, orderUpdated) {
+            if(err) return done(err);
+
+            Order.findOne(ORDER_ID).exec(
+               function(err, actual) {
+                  assert.equal(ORDER_ID, actual.id);
+                  assert.equal('IN_PRODUCTION', actual.status);
+                  assert.deepEqual(actual.productionStartAt, actual.updatedAt);
+                  done();
+            });
+      }); // end update 
+   }); // end - it
+}); // end Update Order
+
+// Step 4 - Create Production Entry
+
 
 //###################### REST API Tests ################################
 describe('Home page', function(done) {
@@ -159,6 +212,24 @@ describe('Add RawMaterial API', function(done) {
          color: 'GREEN',
          forProduct: 2
       })
+      .expect(200, done);
+   });
+});
+
+describe('Delete RawMaterial API', function(done) {
+   it('DELETE /api/v1/rawmaterial/{id} should return 200', function (done) {
+      request(sails.hooks.http.app)
+      .del('/api/v1/rawmaterial/2')
+      .set('Accept', 'application/json')
+      .expect(200, done);
+   });
+});
+
+describe('Delete Product API', function(done) {
+   it('DELETE /api/v1/product/{id} should return 200', function (done) {
+      request(sails.hooks.http.app)
+      .del('/api/v1/product/2')
+      .set('Accept', 'application/json')
       .expect(200, done);
    });
 });

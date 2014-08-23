@@ -21,9 +21,9 @@ module.exports = {
 
    	color : { type: 'string' },
 
-   	rawMaterials: {
-   		collection: 'RawMaterial',
-   		via: 'forProduct'
+   	rawMaterial: {
+   		model: 'RawMaterial',
+         columnName: 'rawmaterial_id'
    	},
 
    	orders: {
