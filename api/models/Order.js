@@ -14,7 +14,7 @@ module.exports = {
    	status : { 
          type: 'string',
          required: true,
-         defaultsTo: 'WAITING_FOR_PRODUCTION'
+         defaultsTo: 'READY_FOR_PRODUCTION'
       },
 
       priority : { 

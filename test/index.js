@@ -81,12 +81,16 @@ describe('#### Product ####', function(done) {
          color : 'BLUE',
       }, 
       function(err, product) {
+         if(err) return done(err);
+
          assert.notEqual(product, undefined);
          console.log(product);
          PRODUCT_ID = product.id;
          assert(product.id > 0, 'Newly inserted Product id must be an integer');
          Product.findOne(product.id).exec(
             function(err, actual) {
+               if(err) return done(err);
+
                assert.equal(actual.id, product.id);
                assert.equal(actual.name, product.name);
                done();
@@ -136,6 +140,8 @@ describe('#### New Order ####', function(done) {
          forProduct : PRODUCT_ID
       }, 
       function(err, order) {
+         if(err) return done(err);
+
          assert.notEqual(order, undefined);
          console.log(order);
          ORDER_ID = order.id;
@@ -147,7 +153,7 @@ describe('#### New Order ####', function(done) {
                assert.equal(actual.id, order.id);
                assert.equal(actual.name, order.name);
                // checking default status
-               assert.equal('WAITING_FOR_PRODUCTION', actual.status);
+               assert.equal('READY_FOR_PRODUCTION', actual.status);
                done();
          });
       }); // end - Product.create()
@@ -162,9 +168,30 @@ describe('#### Update Order ####', function(done) {
 
             Order.findOne(ORDER_ID).exec(
                function(err, actual) {
+                  if(err) return done(err);
+
                   assert.equal(ORDER_ID, actual.id);
                   assert.equal('IN_PRODUCTION', actual.status);
                   assert.deepEqual(actual.productionStartAt, actual.updatedAt);
+                  done();
+            });
+      }); // end update 
+   }); // end - it
+}); // end Update Order
+
+describe('#### Update Order ####', function(done) {
+   it('Finish Production - update()', function(done) {
+      Order.update({ id : ORDER_ID }, { status : 'FINISH_PRODUCTION' }).exec(
+         function(err, orderUpdated) {
+            if(err) return done(err);
+
+            Order.findOne(ORDER_ID).exec(
+               function(err, actual) {
+                  if(err) return done(err);
+
+                  assert.equal(ORDER_ID, actual.id);
+                  assert.equal('FINISH_PRODUCTION', actual.status);
+                  assert.deepEqual(actual.productionEndAt, actual.updatedAt);
                   done();
             });
       }); // end update 
