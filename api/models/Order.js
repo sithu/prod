@@ -26,8 +26,13 @@ module.exports = {
 
    	quantity : { 
          type: 'integer',
-         min: 1,
-         max: 100000
+         required: true,
+         min: 1
+      },
+
+      completedQuantity : { 
+         type: 'integer',
+         defaultsTo: '0'
       },
 
    	rawMaterialQuantityRequired : { type: 'integer' },
@@ -52,6 +57,34 @@ module.exports = {
    
    }, // end attributes
 
+   // custom functions
+   /**
+    * Update the order progress.
+    *
+    * @param  {Object} opts 
+    *              => id - a valid order id
+    *              => count - a completed count from the production entry
+    * @param  {Function} cb
+    */
+   updateCompletedQuantity: function(opts, cb) {
+      Order.findOne(opts.id).exec(
+         function (err, order) {
+            if (err) return cb(err);
+            if (!order) return cb(new Error('Order not found'));
+            // updates the completedQuantity
+            order.completedQuantity += opts.count;
+            order.updatedAt = new Date();
+            // checks if it's done?
+            if (order.completedQuantity >= order.quantity) {
+               order.status = 'DONE';
+               order.productionEndAt = order.updatedAt;
+            }
+
+            order.save(cb);
+         }
+      );
+   },
+
    // triggers
    beforeCreate: function(attributes, next) {
       var count = attributes.quantity;
@@ -69,7 +102,7 @@ module.exports = {
             // Calculates total estimated time to finish
             var totalHrs = (count * product.timeToBuildInSec) / (60 * 60);
             // round to 2 decimal places
-            attributes.estimatedTimeToFinishInHour = +(Math.round(totalHrs + "e+2")  + "e-2");;
+            attributes.estimatedTimeToFinishInHour = +(Math.round(totalHrs + "e+2")  + "e-2");
 
             next();
          });
@@ -80,8 +113,7 @@ module.exports = {
       
       if(status == 'IN_PRODUCTION' && attributes.productionStartAt == null) {
          attributes.productionStartAt = new Date();
-         
-      } else if(status == 'FINISH_PRODUCTION' && attributes.productionEndAt == null) {
+      } else if(status == 'DONE' && attributes.productionEndAt == null) {
          attributes.productionEndAt = new Date(); 
       } 
 

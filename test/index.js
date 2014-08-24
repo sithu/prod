@@ -41,19 +41,12 @@ after(function (done) {
       var id = app.id;
       app.destroy()
       .done(function(err, app) { 
-         console.log("test Application deleted app.id = " + id); 
-         
          Activity.destroy({ app_id: id })
          .done(function(err) { 
             console.log("test Activity deleted"); 
-            
-            console.log();
             sails.lower(done);
-
          }); // Activity.destroy.done()
-
       }); // Application.destroy.done()
-
    }); // Application.findOne.done()
 */
   sails.lower(done);
@@ -67,12 +60,13 @@ describe('Basic', function(done) {
 });
 
 //###################### DB CRUD Tests ################################
-var PRODUCT_ID, RAW_MATERIAL_ID, ORDER_ID;
+var PRODUCT_ID, RAW_MATERIAL_ID, ORDER_ID, PRODUCTIONENTRY_ID;
 
 // STEP 1 - Create Product
 describe('#### Product ####', function(done) {
    it('create()', function(done) {
-      Product.create({
+      Product.create(
+      {
          name : 'Blue Chair',
          type : 'CHAIR',
          timeToBuildInSec : 30,
@@ -102,7 +96,8 @@ describe('#### Product ####', function(done) {
 // STEP 2 - Create Raw Material
 describe('#### RawMaterial ####', function(done) {
    it("create()", function(done) {
-      RawMaterial.create({
+      RawMaterial.create(
+      {
          name: 'Marble', 
          weight: 25, 
          count: 200,
@@ -134,7 +129,8 @@ describe('#### RawMaterial ####', function(done) {
 
 describe('#### New Order ####', function(done) {
    it('create()', function(done) {
-      Order.create({
+      Order.create(
+      {
          name : 'New Chair Regular Order',
          quantity : 1000,
          forProduct : PRODUCT_ID
@@ -177,11 +173,22 @@ describe('#### Update Order ####', function(done) {
             });
       }); // end update 
    }); // end - it
-}); // end Update Order
 
-describe('#### Update Order ####', function(done) {
-   it('Finish Production - update()', function(done) {
-      Order.update({ id : ORDER_ID }, { status : 'FINISH_PRODUCTION' }).exec(
+   it('Custom updateCompletedQuantity()', function(done) {
+      Order.updateCompletedQuantity({ id : ORDER_ID, count: 1000 }, 
+         function(err, order) {
+            if(err) return done(err);
+
+            assert.equal(ORDER_ID, order.id);
+            assert.equal('DONE', order.status);
+            assert.deepEqual(order.productionEndAt, order.updatedAt);
+            done();
+         }
+      ); // end update 
+   }); // end - it
+
+   it('Done - update()', function(done) {
+      Order.update({ id : ORDER_ID }, { status : 'DONE' }).exec(
          function(err, orderUpdated) {
             if(err) return done(err);
 
@@ -190,16 +197,53 @@ describe('#### Update Order ####', function(done) {
                   if(err) return done(err);
 
                   assert.equal(ORDER_ID, actual.id);
-                  assert.equal('FINISH_PRODUCTION', actual.status);
+                  assert.equal('DONE', actual.status);
                   assert.deepEqual(actual.productionEndAt, actual.updatedAt);
                   done();
-            });
+               }
+            );
       }); // end update 
    }); // end - it
+   
 }); // end Update Order
 
 // Step 4 - Create Production Entry
+describe('#### Create Production Entry ####', function(done) {
+   it('create()', function(done) {
+      var plannedQty = 500;
+      // Lookup product details
+      Order.findOne(ORDER_ID).populate('forProduct').exec(
+         function(err, order) {
+            if (err) return done(err);
 
+            var estTimeForProductionEntry = (plannedQty / order.quantity) * order.estimatedTimeToFinishInHour;
+            estTimeForProductionEntry = +(Math.round(estTimeForProductionEntry + "e+2")  + "e-2");
+
+            ProductionEntry.create(
+            {
+               shiftName : 'MORNING',
+               machineName : 'T450',
+               assignedEmployeeName : 'Ma Khin Than Myint',
+               plannedQuantity : plannedQty,
+               estimatedTimeToFinishInHour : estTimeForProductionEntry,
+               forOrder : ORDER_ID
+            }, 
+            function(err, pEntry) {
+               if(err) return done(err);
+
+               assert.notEqual(pEntry, undefined);
+               PRODUCTIONENTRY_ID = pEntry.id;
+               assert.equal('WAITING_FOR_EMPLOYEE_ASSIGNMENT', pEntry.status);
+               assert.equal(ORDER_ID, pEntry.forOrder);
+               assert.equal(estTimeForProductionEntry, pEntry.estimatedTimeToFinishInHour);
+
+               done();
+            }); // end ProductionEntry.create()
+               
+      });
+
+   }); // end - it
+}); // end Create Production Entry
 
 //###################### REST API Tests ################################
 describe('Home page', function(done) {
