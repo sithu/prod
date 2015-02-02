@@ -1,0 +1,16 @@
+/* Any overrides to foundation.css app.css */
+/* vertical space between the body content and navigation bar */
+nav {
+	margin-bottom: 30px;
+}
+/* fix side nav bar hover height */
+ul.side-nav :hover {
+	height: 63px;
+}
+/* + icon */
+.right-add-icon {
+	padding-top: 25px;
+	padding-right: 50px;
+   padding-bottom: 60px;
+   padding-left: 25px;
+}

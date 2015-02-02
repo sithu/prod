@@ -39,62 +39,6 @@ module.exports.routes = {
     view: 'home/index'
   },
   
-  '/view/bom': {
-    view: 'bom/index'
-  },
-  
-  '/view/bom/new': {
-    view          : 'bom/new'
-  },
-  
-  '/view/bom/gedit/:id?': {
-    controller    : 'BomController',
-    action        : 'editbom'
-  },
-  
-  'get /api/v1/bom/search': {
-    controller    : 'BomController',
-    action        : 'search'
-  },
-  
-  'get /api/v1/bom/resolve': {
-    controller    : 'BomController',
-    action        : 'resolve'
-  },
-  
-  '/view/service': {
-    view: 'service/index'
-  },
-  
-  '/view/service/new': {
-    view: 'service/new'
-  },
-  
-  '/view/service/graph': {
-    controller    : 'ServiceGraphController',
-    action        : 'graph'
-  },
-  
-  
-  'get /api/v1/service/search': {
-    controller    : 'ServiceController',
-    action        : 'search'
-  },
-  
-  'get /api/v1/service/graph_list': {
-    controller    : 'ServiceController',
-    action        : 'graph_list'
-  },
-  
-  'get /api/v1/service/resolve_list': {
-    controller    : 'ServiceController',
-    action        : 'resolve_list'
-  },
-  
-  'get /api/v1/service/resolve_tree': {
-    controller    : 'ServiceController',
-    action        : 'resolve_tree'
-  },
 
   // upload *.properties file.
   'post /application/upload': {
@@ -111,25 +55,12 @@ module.exports.routes = {
     action        : 'viewByAppId'
   },
 
-  '/api/v1/application/:id/config.properties': {
-    controller    : 'ApplicationController',
-    action        : 'toPropertiesFile'
-  },
 
   'post /api/v1/application/:id/property': {
     controller    : 'ApplicationController',
     action        : 'newProperty'
   },
 
-  'put /api/v1/application/:id/property': {
-    controller    : 'ApplicationController',
-    action        : 'updateProperty'
-  },
-
-  'delete /api/v1/application/:id/property': {
-    controller    : 'ApplicationController',
-    action        : 'deleteProperty'
-  },
 
   /*
   // But what if you want your home page to display

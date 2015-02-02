@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+        For demonstration purposes, the `title` is dynamically set here based on
+        your `sails.config.appName` to show that you can inject data into layouts
+        exactly the same way as with your other view templates.
+    -->
+    <title>Hydra</title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <!--
+
+      Stylesheets
+      ========================
+
+      You can link any CSS, LESS, or image files in your `assets` directory
+      as you would normally: using <link/> tags.
+      
+    -->
+    <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <link href="/styles/jquery-ui.css" rel="stylesheet">
+    <link href="/styles/jqueryscripttop.css" rel="stylesheet" type="text/css">
+    <link href="/styles/custom.css" rel="stylesheet">
+
+    <!--
+
+      Support for LESS included by default
+      ================================================
+
+      LESS files are automatically compiled when they change using the Gruntfile
+      located in the top-level of this Sails app.  If you run into issues with styles
+      not reloading, check the Sails log output in your console for LESS compilation errors.
+      If necessary, shut down and then lift your app again.
+      
+    -->
+    
+  </head>
+
+  <!-- Would prefer to load these after the html but it's not possible to control w/o some work
+       so that needs to be fixed.
+  -->
+  <script src="/js/libs/jquery-1.9.1-min.js"></script>
+  <script src="/js/libs/jquery-ui-1.10.4-min.js"></script>
+  <script src="/js/libs/underscore-1.4.4-min.js"></script>
+  <script src="/js/libs/backbone-1.1.1-min.js"></script>
+  <script src="/js/libs/bootstrap.min.js"></script>
+  <script src="/js/libs/fieldChooser.js"></script>
+    
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hydra</a>
+          </div>
+
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="/">Home</a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">BOMs<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/view/bom">View All BOMs</a></li>
+                  <li><a href="/view/bom/new">New BOM</a></li>
+                  <li><a href="/view/bom/gedit">Edit BOM</a></li>
+                  <li><a href="/api/v1/bom">JSON BOM List</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Deployments<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/view/service">Deployment List</a></li>
+                  <li><a href="/view/service/new">New Deployment</a></li>
+                  <li><a href="/view/service/graph">Deployment Graph</a></li>
+                  <li><a href="/api/v1/service">JSON Deployment List (FIXME)</a></li>
+                  <li><a href="/api/v1/service">Service list in JSON (FIXME)</a></li>
+                  <li><a href="/api/v1/service/resolve_list">Service parent list format (FIXME)</a></li>
+                  <li><a href="/api/v1/service/resolve_tree">D3 Format (FIXME) </a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Applications<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/">View Applications</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+      <div class="row">
+         
+         <div class="col-xs-12 col-sm-9 jumbotron">
+            <%- body %>
+         </div>
+
+         <!-- Activity Column -->
+         <div class="col-xs-6 col-md-3 sidebar">
+            <div class="page-header">
+              <h5>ACTIVITY</h5>
+            </div>
+            <ul class="nav nav-pills nav-stacked">
+              <li class="">
+                <a href="#">
+                  You edited the "foo" property.
+                </a>
+              </li>
+            </ul>
+         </div>
+        
+      </div><!-- /.row -->
+      
+   </div> 
+
+   
+
+
+    <!--
+      Client-side Javascript
+      ========================
+
+      You can import any js files in your `assets` directory as you would 
+      normally: using <script></script> tags.
+
+      Here's an example of importing a few dependencies, in order:
+    -->
+    <!-- Bring in the socket.io client -->
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <!-- then beef it up with some convenience logic for talking to Sails.js -->
+    <script type="text/javascript" src="/js/sails.io.js"></script>
+    <!-- then beef it up with some convenience logic for talking to Sails.js -->
+    <script type="text/javascript" src="/js/sails.io.js"></script>
+    <!-- Backbone SDK for communicating with Sails.js over Socket.io -->
+    <!-- https://github.com/balderdashy/backbone-to-sails.git -->
+    <script type="text/javascript" src="/js/sails.io.backbone.js"></script>
+
+    <script type="text/javascript" src="/js/prod.js"></script>
+
+    <script type="text/javascript" src="/js/shared.js"></script>
+
+    <!-- 3rd party scripts should go here... -->
+    
+    <!--
+
+      Looking for client-side CoffeeScript or TypeScript?
+      ================================================
+
+      CoffeeScript and TypeScript precompilation are not installed by default,
+      but if you'd like to mix those features in, it is straightforward to
+      `npm install` the relevant grunt community modules and modify your Gruntfile
+      to use them.
+
+    -->
+
+    <!--
+
+      Another way: The Asset Linker
+      ========================
+
+      Sails supports a Grunt-based asset linker, to automatically inject 
+      <link> and <script> tags, as well any client-side templates you're using
+      into your HTML layouts and views, respecting dependencies.
+
+      You created this Sails app with the asset linker disabled.
+      If you change your mind, check out the docs on the subject:
+      http://sailsjs.org/#!documentation/asset-management
+
+    -->
+
+    </body>
+</html>

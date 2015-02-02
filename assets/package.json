@@ -1,0 +1,21 @@
+{
+    "name"            : "ng101",
+    "version"         : "0.0.1",
+    "dependencies"    : {},
+    "devDependencies" : {
+        "grunt"                  : "^0.4.1",
+        "grunt-cli"              : "*",
+        "bower"                  : "*",
+        "grunt-contrib-concat"   : "^0.4.0",
+        "grunt-contrib-less"     : "*",
+        "grunt-contrib-uglify"   : "*",
+        "grunt-contrib-watch"    : "^0.6.1",
+        "load-grunt-tasks"       : "^0.4.0"
+    },
+    "engines"         : {
+        "node" : ">=0.10.0"
+    },
+    "scripts"         : {
+        "test" : "grunt test"
+    }
+}
