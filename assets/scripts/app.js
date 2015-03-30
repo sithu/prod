@@ -2,8 +2,6 @@
  * To enable a hamburger icon in resized screen.
  */
 $(document).ready(function() {
-    $(".button-collapse").sideNav();
-    /*
     $(".button-collapse").sideNav(
         {
             menuWidth: 240, // Default is 240
@@ -11,7 +9,6 @@ $(document).ready(function() {
             closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
         }
     );
-    */
     console.log("loaded settings");
 });
 
@@ -31,6 +28,14 @@ angular.module('prod', [
         .when('/new_order', {
             templateUrl : 'views/pages/new_order.html',
             controller  : 'OrderCtrl as orderCtrl'
+        })
+        .when('/products', {
+            templateUrl : 'views/pages/products.html',
+            controller  : 'ProductListCtrl as productListCtrl'
+        })
+        .when('/new_product', {
+            templateUrl : 'views/pages/new_product.html',
+            controller  : 'ProductCtrl as productCtrl'
         })
         .when('/login', {
             templateUrl : 'views/pages/login.html',

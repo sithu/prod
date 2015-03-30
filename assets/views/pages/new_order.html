@@ -2,9 +2,6 @@
 
 	<h4 class="cyan-text">{{orderCtrl.title}}</h4>
 
-	<div class="row">
-	  <form class="col s12">
-
 	  	<div class="row">
 	      <div class="input-field col s12">
             <i class="mdi-action-description prefix"></i>
@@ -22,16 +19,24 @@
       </div>
 
 	    <div class="row">
-         <div class="input-field col s12">
+         <div class="input-field col s4">
             <i class="mdi-editor-format-list-numbered prefix"></i>
             <input id="last_name" type="text" class="validate" ng-model="orderCtrl.order.quantity" required>
             <label for="last_name">Quantity</label>
          </div>
+         <div class="input-field col s8">
+              <p class="range-field range-slider">
+                  <input type="range" id="quantity-slider" min="1" max="2000" ng-model="orderCtrl.order.quantity"/>
+               </p>
+            </div>
        </div>
        
        <div class="row">
-         <div class="input-field col s12">
+         <div class="input-field col s4">
             <i class="mdi-action-schedule prefix"></i>
+            <label for="priority">Priority</label>
+         </div>
+         <div class="input-field col s8">
             <form action="#">
                <input name="group1" type="radio" id="express" />
                <label for="express">Express</label>
@@ -45,16 +50,28 @@
          </div>
        </div>
 
-	    <div class="row">
-	      <div class="input-field col s12">
-	        <a class="waves-effect waves-light btn-large cyan right" 
-            ng-disabled="!orderCtrl.order.description || !orderCtrl.order.product || !orderCtrl.order.quantity"
-            ng-click="orderCtrl.create(orderCtrl.order)"><i class="mdi-navigation-check left"></i>Save</a>
-	      </div>
-	    </div>
+      </br></br>
 
-	  </form>
-	</div>
+      <div class="row">
+         <div class="input-field col s12">
+            <a class="waves-effect waves-light btn-large btn-wide cyan" ng-click="orderCtrl.create(orderCtrl.order)">Save</a>
+         </div>	  
+	  </div>
+
 
 </div><!-- end container -->
 
+<!-- side flooding action button -->
+<div class="fixed-action-btn right-icon">
+   <a class="btn-floating btn-large waves-effect red">
+      <i class="large mdi-navigation-more-vert"></i>
+   </a>
+   <ul>
+      <li>
+         <a class="btn-floating red" href="#"><i class="large mdi-action-home"></i></a>
+      </li>
+      <li>
+         <a class="btn-floating blue darken-1" href="#!"><i class="large mdi-navigation-close"></i></a>
+      </li>
+   </ul>
+</div>

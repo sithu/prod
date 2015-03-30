@@ -1,17 +1,37 @@
 <div class="container">
 
-	<h3 class="cyan-text">{{homeCtrl.tableTitle}}</h3>
+	<h4 class="cyan-text">{{productListCtrl.title}}</h4>
 
-	<table class="hoverable">
-		<tr ng-repeat="o in homeCtrl.orders">
-	    	<td>{{ o.id }}</td>
-	    	<td>{{ o.description }}</td>
-	    	<td>{{ o.status }}</td>
-		</tr>
+	<table class="striped">
+		<thead>
+        	<tr>
+              <th data-field="id">Name</th>
+              <th data-field="price">Unit Weight</th>
+              <th data-field="name">Price</th>
+              <th data-field="price">Time To Build</th>
+        	</tr>
+        </thead>
+		<tr ng-repeat="p in productListCtrl.products">
+	    	<td>{{ p.name }}</td>
+	    	<td>{{ p.weight }} oz</td>
+	    	<td>{{ p.price }} kyat</td>
+	    	<td>{{ p.timeToBuildInSec }} sec</td>
+	    </tr>
 	</table>
 
 </div>
-<!-- side + button -->
-<div class="right-add-icon">
-	<a class="btn-floating btn-large waves-effect waves-light cyan right" href="#/new_order"><i class="mdi-content-add"></i></a>
+
+<!-- side flooding action button -->
+<div class="fixed-action-btn right-icon">
+	<a class="btn-floating btn-large waves-effect red">
+		<i class="large mdi-navigation-more-vert"></i>
+	</a>
+	<ul>
+      <li>
+      	<a class="btn-floating red" href="#"><i class="large mdi-action-home"></i></a>
+		</li>
+		<li>
+      	<a class="btn-floating blue darken-1" href="#/new_product"><i class="large mdi-content-add"></i></a>
+      </li>
+   </ul>
 </div>

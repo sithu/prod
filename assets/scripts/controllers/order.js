@@ -8,7 +8,7 @@ angular.module('prod').controller('OrderCtrl', [
 
 		this.create = function(order) {
 			console.log("creating a new order:" + order.product + ":" + order.quantity);
-		}	
+		}
 
 	}
 

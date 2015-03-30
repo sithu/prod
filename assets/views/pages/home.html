@@ -1,8 +1,15 @@
 <div class="container">
 
-	<h3 class="cyan-text">{{homeCtrl.tableTitle}}</h3>
+	<h4 class="cyan-text">{{homeCtrl.tableTitle}}</h4>
 
-	<table class="hoverable">
+	<table class="striped">
+		<thead>
+        	<tr>
+              <th data-field="id">Order ID</th>
+              <th data-field="name">Description</th>
+              <th data-field="price">Status</th>
+        	</tr>
+        </thead>
 		<tr ng-repeat="o in homeCtrl.orders">
 	    	<td>{{ o.id }}</td>
 	    	<td>{{ o.description }}</td>
@@ -11,3 +18,19 @@
 	</table>
 		
 </div><!-- container -->
+
+<!-- side flooding action button -->
+<div class="fixed-action-btn right-icon">
+	<a class="btn-floating btn-large waves-effect red">
+		<i class="large mdi-navigation-more-vert"></i>
+	</a>
+	<ul>
+      <li>
+      	<a class="btn-floating red" href="#"><i class="large mdi-action-home"></i></a>
+		</li>
+		<li>
+      	<a class="btn-floating blue darken-1" href="#/new_order"><i class="large mdi-content-add"></i></a>
+      </li>
+   </ul>
+</div>
+

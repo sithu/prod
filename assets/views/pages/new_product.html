@@ -1,78 +1,83 @@
-   <div class="container">
+<div class="container" id="new_product_div" ng-controller="ProductCtrl as p">
+   
+   	<h4 class="cyan-text">{{p.title}}</h4>
 
-   <form action="#">
-
-   	<h3 class="cyan-text">{{productCtrl.title}}</h3>
-
-   	<div class="row">
-   	  <form class="col s12">
    	  	<div class="row">
    	      <div class="input-field col s12">
                <i class="mdi-action-description prefix"></i>
-   	         <input id="username" type="text" class="validate">
+   	         <input id="username" type="text" class="validate" ng-model="p.product.name"/>
    	         <label for="username">Product Name</label>
    	      </div>
-   	    </div>
-   	    <div class="row">
-   	       <div class="input-field col s12">
-                <input type="checkbox" id="test5" />
-                <label for="test5">Red</label>
-                <input type="checkbox" id="test6" checked="checked" />
-                <label for="test6">Yellow</label>
-                <input type="checkbox" id="test7" checked="checked" disabled="disabled" />
-                <label for="test7">Green</label>
-               <input type="checkbox" id="test8" disabled="disabled" />
-               <label for="test8">Brown</label>
-            </div>
-   	     </div>
-   	    <div class="row">
-            <div class="input-field col s6">
-               <i class="mdi-editor-format-list-numbered prefix"></i>
-               <input id="last_name" type="text" class="validate">
-               <label for="last_name">Quantity</label>
-            </div>
-            <div class="input-field col s6">
-               <select>
-                  <option value="" disabled selected>Choose Priority</option>
-                  <option value="1">Urgent</option>
-                  <option value="2">Normal</option>
-                  <option value="3">Can Wait</option>
-               </select>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
+   	   </div>
+
+   	   <div class="row">
+            <div class="input-field col s4">
                <i class="mdi-device-access-alarm prefix"></i>
-               <label for="first_name">Estimated Time To Finish</label>
+               <input id="time" type="text" class="validate" ng-model="p.product.timeToBuildInSec">
+               <label for="time">Estimated Time To Finish (sec)</label>
             </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <p class="range-field">
-                  <input type="range" id="test5" min="1" max="48" />
+            <div class="input-field col s8">
+              <p class="range-field range-slider">
+                  <input type="range" id="test5" min="1" max="120" ng-model="p.product.timeToBuildInSec"/>
                </p>
             </div>
-          </div>
-   	    
-   	    <div class="row">
+         </div>
+
+			<div class="row">
    	      <div class="input-field col s6">
-   	        <a class="waves-effect waves-light btn-large grey" href="#!"><i class="mdi-navigation-close left"></i>Cancel</a>
+               <i class="mdi-device-signal-wifi-0-bar prefix"></i>
+   	         <input id="weight" type="text" class="validate" ng-model="p.product.weight">
+   	         <label for="weight">Weight (oz)</label>
    	      </div>
    	      <div class="input-field col s6">
-   	        <a class="waves-effect waves-light btn-large cyan right"><i class="mdi-navigation-check left"></i>Save</a>
+               <i class="mdi-editor-attach-money prefix"></i>
+   	         <input id="weight" type="text" class="validate" ng-model="p.product.price">
+   	         <label for="weight">Price (Kyat)</label>
+   	      </div>
+   	   </div>
+   	   
+         <div class="row">
+   	    		<div class="input-field col s6">
+   	    			<i class="mdi-image-color-lens prefix"></i>
+   	    			<label for="available-color">Available Colors:</label>
+   	    		</div>
+
+   	       	<div class="input-field col s6">
+	   	       	<form action="#">
+	   	       	<div ng-repeat="color in p.colors">
+		               <input type="checkbox" id="{{color}}" value="{{color}}" name="selectedColors[]"
+		               	ng-checked="p.selection.indexOf(color) > -1"
+								ng-click="p.toggleSelection(color)"/> 
+		               <label for="{{color}}"><i class="small mdi-action-invert-colors {{color}}-text"></i>
+		               </label>
+		            </div>
+		            </form>
+              	</div>
+         </div>
+
+   	    </br>
+
+   	    <div class="row">
+   	      <div class="input-field col s12">
+   	        <a class="waves-effect waves-light btn-large btn-wide cyan" ng-click="p.create(p.product)">Save</a>
    	      </div>
    	    </div>
 
-   	  </form>
-   	</div>
+   
 
-   </form>
+</div><!-- end container -->
 
-   	<script type="text/javascript">
-         $(document).ready(function() {
-            $('select').material_select();
-         });
-      </script>
-
-
-   </div><!-- end container -->
+<!-- side flooding action button -->
+<div class="fixed-action-btn right-icon">
+   <a class="btn-floating btn-large waves-effect red">
+      <i class="large mdi-navigation-more-vert"></i>
+   </a>
+   <ul>
+      <li>
+         <a class="btn-floating red" href="#"><i class="large mdi-action-home"></i></a>
+      </li>
+      <li>
+         <a class="btn-floating blue darken-1" href="#/products"><i class="large mdi-action-delete"></i></a>
+      </li>
+   </ul>
+</div>

@@ -1,7 +1,6 @@
 module.exports = function (grunt) {
 
     var bowerFiles = [
-            'bower_components/foundation/js/foundation.min.js',
             'bower_components/modernizr/modernizr.js',
             'bower_components/jquery/dist/jquery.js',
             'bower_components/es5-shim/es5-shim.js',

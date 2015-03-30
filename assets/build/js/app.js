@@ -2,8 +2,6 @@
  * To enable a hamburger icon in resized screen.
  */
 $(document).ready(function() {
-    $(".button-collapse").sideNav();
-    /*
     $(".button-collapse").sideNav(
         {
             menuWidth: 240, // Default is 240
@@ -11,7 +9,6 @@ $(document).ready(function() {
             closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
         }
     );
-    */
     console.log("loaded settings");
 });
 
@@ -31,6 +28,14 @@ angular.module('prod', [
         .when('/new_order', {
             templateUrl : 'views/pages/new_order.html',
             controller  : 'OrderCtrl as orderCtrl'
+        })
+        .when('/products', {
+            templateUrl : 'views/pages/products.html',
+            controller  : 'ProductListCtrl as productListCtrl'
+        })
+        .when('/new_product', {
+            templateUrl : 'views/pages/new_product.html',
+            controller  : 'ProductCtrl as productCtrl'
         })
         .when('/login', {
             templateUrl : 'views/pages/login.html',
@@ -117,7 +122,67 @@ angular.module('prod').controller('OrderCtrl', [
 
 		this.create = function(order) {
 			console.log("creating a new order:" + order.product + ":" + order.quantity);
-		}	
+		}
+
+	}
+
+]);
+angular.module('prod').controller('ProductCtrl', [
+	function() {
+		this.title = 'New Product';
+		this.colors = [ 
+			'red', 'yellow', 'green', 'blue', 'black', 'cyan' 
+		];
+		this.selection = [];
+
+		this.toggleSelection = function toggleSelection(color) {
+			var idx = this.selection.indexOf(color);
+
+			if (idx > 1) {
+				this.selection.splice(idx, 1);
+			} else {
+				this.selection.push(color);
+			}
+		};
+
+		this.product = {};
+		this.product.name = '';
+		this.product.type = '';
+		this.product.timeToBuildInSec = '';
+		this.product.weight = '';
+		this.product.price = '';
+		this.product.color = '';
+
+
+		this.create = function(product) {
+			console.log("creating a new product:" 
+				+ product.name + ":" + product.quantity 
+				+ ":" + this.selection.length);
+		};
+
+	}
+
+]);
+angular.module('prod').controller('ProductListCtrl', [
+	function() {
+		this.title = 'Product List';
+		this.product = {};
+		this.product.description = '';
+		this.product.product = '';
+		this.product.quantity = '';
+
+		this.products = [
+			{
+				name: '4-Leg Chair', type: 'Chair', timeToBuildInSec: '25', weight: '1.25'
+			},
+			{
+				name: 'Children basket', type: 'Basket', timeToBuildInSec: '35', weight: '0.55'
+			}
+		];
+
+		this.create = function(product) {
+			console.log("creating a new product:" + product.name + ":" + product.quantity);
+		}
 
 	}
 
