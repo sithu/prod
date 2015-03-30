@@ -9,7 +9,6 @@ $(document).ready(function() {
             closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
         }
     );
-    console.log("loaded settings");
 });
 
 
@@ -127,8 +126,8 @@ angular.module('prod').controller('OrderCtrl', [
 	}
 
 ]);
-angular.module('prod').controller('ProductCtrl', [
-	function() {
+angular.module('prod').controller('ProductCtrl', ['$http', 
+	function($http) {
 		this.title = 'New Product';
 		this.colors = [ 
 			'red', 'yellow', 'green', 'blue', 'black', 'cyan' 
@@ -155,10 +154,17 @@ angular.module('prod').controller('ProductCtrl', [
 
 
 		this.create = function(product) {
-			console.log("creating a new product:" 
-				+ product.name + ":" + product.quantity 
-				+ ":" + this.selection.length);
-		};
+			product.color = this.selection.join();
+			product.type = '';
+			console.log(product);
+			$http.post('/api/v1/product', product)
+				.success(function(data) {
+					console.log(data);
+				})
+				.error(function(data) {
+					console.log("Error:" + data);
+				});
+		}; // end create()
 
 	}
 
