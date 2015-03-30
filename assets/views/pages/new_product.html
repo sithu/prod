@@ -11,19 +11,6 @@
    	   </div>
 
    	   <div class="row">
-            <div class="input-field col s4">
-               <i class="mdi-device-access-alarm prefix"></i>
-               <input id="time" type="text" class="validate" ng-model="p.product.timeToBuildInSec">
-               <label for="time">Estimated Time To Finish (sec)</label>
-            </div>
-            <div class="input-field col s8">
-              <p class="range-field range-slider">
-                  <input type="range" id="test5" min="1" max="120" ng-model="p.product.timeToBuildInSec"/>
-               </p>
-            </div>
-         </div>
-
-			<div class="row">
    	      <div class="input-field col s6">
                <i class="mdi-device-signal-wifi-0-bar prefix"></i>
    	         <input id="weight" type="text" class="validate" ng-model="p.product.weight">
@@ -35,14 +22,28 @@
    	         <label for="weight">Price (Kyat)</label>
    	      </div>
    	   </div>
+
+   	   <div class="row">
+            <div class="input-field col s4">
+               <i class="mdi-device-access-alarm prefix"></i>
+               <input id="time" type="text" class="validate" ng-model="p.product.timeToBuildInSec">
+               <label for="time">Estimated Time To Finish (sec)</label>
+            </div>
+            <div class="input-field col s8">
+              <p class="range-field range-slider">
+                  <input type="range" id="test5" min="1" max="120" ng-model="p.product.timeToBuildInSec"/>
+               </p>
+            </div>
+         </div>
+		
    	   
          <div class="row">
-   	    		<div class="input-field col s6">
+   	    		<div class="input-field col s4">
    	    			<i class="mdi-image-color-lens prefix"></i>
    	    			<label for="available-color">Available Colors:</label>
    	    		</div>
 
-   	       	<div class="input-field col s6">
+   	       	<div class="input-field col s8">
 	   	       	<form action="#">
 	   	       	<div ng-repeat="color in p.colors">
 		               <input type="checkbox" id="{{color}}" value="{{color}}" name="selectedColors[]"
@@ -74,10 +75,10 @@
    </a>
    <ul>
       <li>
-         <a class="btn-floating red" href="#"><i class="large mdi-action-home"></i></a>
+         <a class="btn-floating cyan" href="#"><i class="large mdi-action-home"></i></a>
       </li>
       <li>
-         <a class="btn-floating gray darken-1" href="#/products"><i class="large mdi-action-delete"></i></a>
+         <a class="btn-floating grey darken-1" href="#/products"><i class="large mdi-action-delete"></i></a>
       </li>
    </ul>
 </div>

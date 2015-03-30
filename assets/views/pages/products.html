@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container" ng-controller="ProductListCtrl as pl">
 
-	<h4 class="cyan-text">{{productListCtrl.title}}</h4>
+	<h4 class="cyan-text">{{pl.title}}</h4>
 
 	<table class="striped">
 		<thead>
@@ -11,7 +11,7 @@
               <th data-field="price">Time To Build</th>
         	</tr>
         </thead>
-		<tr ng-repeat="p in productListCtrl.products">
+        <tr ng-repeat="p in pl.products">
 	    	<td>{{ p.name }}</td>
 	    	<td>{{ p.weight }} oz</td>
 	    	<td>{{ p.price }} kyat</td>
@@ -28,7 +28,7 @@
 	</a>
 	<ul>
       <li>
-      	<a class="btn-floating red" href="#"><i class="large mdi-action-home"></i></a>
+      	<a class="btn-floating cyan" href="#"><i class="large mdi-action-home"></i></a>
 		</li>
 		<li>
       	<a class="btn-floating blue darken-1" href="#/new_product"><i class="large mdi-content-add"></i></a>

@@ -1,23 +1,19 @@
-angular.module('prod').controller('ProductListCtrl', [
-	function() {
+angular.module('prod').controller('ProductListCtrl', ['$http',
+	function($http) {
 		this.title = 'Product List';
-		this.product = {};
-		this.product.description = '';
-		this.product.product = '';
-		this.product.quantity = '';
+		var self = this;
+		self.products = [];
 
-		this.products = [
-			{
-				name: '4-Leg Chair', type: 'Chair', timeToBuildInSec: '25', weight: '1.25'
-			},
-			{
-				name: 'Children basket', type: 'Basket', timeToBuildInSec: '35', weight: '0.55'
-			}
-		];
+		var getAllProducts = function() {
+			return $http.get('/api/v1/product').then(function(response) {
+				console.log(response.data);
+				self.products = response.data;
+			}, function(errResponse) {
+				console.error('Error while fetching products:' + errResponse);
+			});
+		};
 
-		this.create = function(product) {
-			console.log("creating a new product:" + product.name + ":" + product.quantity);
-		}
+		getAllProducts();
 
 	}
 
