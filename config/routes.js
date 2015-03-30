@@ -39,13 +39,14 @@ module.exports.routes = {
     view: 'home/index'
   },
   
+  'get /login': 'AuthController.login',
+  'get /logout': 'AuthController.logout',
+  'get /register': 'AuthController.register',
 
-  // upload *.properties file.
-  'post /application/upload': {
-    controller    : 'ApplicationController',
-    action        : 'upload'
-  },
-  
+  'post /auth/local': 'AuthController.callback',
+  'post /auth/local/:action': 'AuthController.callback',
+
+/* DELETE-ME  
   '/view/application': {
     view          : 'application/index'
   },
@@ -61,6 +62,7 @@ module.exports.routes = {
     action        : 'newProperty'
   },
 
+*/
 
   /*
   // But what if you want your home page to display

@@ -1,67 +1,60 @@
 <div class="container">
 
-	<h3 class="cyan-text">{{orderCtrl.title}}</h3>
+	<h4 class="cyan-text">{{orderCtrl.title}}</h4>
 
 	<div class="row">
 	  <form class="col s12">
+
 	  	<div class="row">
 	      <div class="input-field col s12">
             <i class="mdi-action-description prefix"></i>
-	        <input id="username" type="text" class="validate">
+	        <input id="username" type="text" class="validate" ng-model="orderCtrl.order.description" required>
 	        <label for="username">Order Description</label>
 	      </div>
 	    </div>
-	    <div class="row">
+	    
+      <div class="row">
 	      <div class="input-field col s12">
             <i class="mdi-action-find-in-page prefix"></i>
-	        <input id="first_name" type="text" class="validate">
-	        <label for="first_name">Product</label>
+	         <input id="product" type="text" class="validate" ng-model="orderCtrl.order.product" required>
+            <label for="product">Product</label>
 	      </div>
-	    </div>
+      </div>
+
 	    <div class="row">
-         <div class="input-field col s6">
+         <div class="input-field col s12">
             <i class="mdi-editor-format-list-numbered prefix"></i>
-           <input id="last_name" type="text" class="validate">
-           <label for="last_name">Quantity</label>
-         </div>
-         <div class="input-field col s6">
-            <select>
-               <option value="" disabled selected>Choose Priority Option</option>
-               <option value="1">Urgent</option>
-               <option value="2">Normal</option>
-               <option value="3">Can Wait</option>
-            </select>
+            <input id="last_name" type="text" class="validate" ng-model="orderCtrl.order.quantity" required>
+            <label for="last_name">Quantity</label>
          </div>
        </div>
+       
        <div class="row">
          <div class="input-field col s12">
-            <i class="mdi-device-access-alarm prefix"></i>
-            <label for="first_name">Estimated Time To Finish</label>
+            <i class="mdi-action-schedule prefix"></i>
+            <form action="#">
+               <input name="group1" type="radio" id="express" />
+               <label for="express">Express</label>
+
+               <input name="group1" type="radio" id="regular" checked />
+               <label for="regular">Regular</label>
+
+               <input name="group1" type="radio" id="canwait" />
+               <label for="canwait">Can Wait</label>
+            </form>
          </div>
        </div>
-       <div class="row">
-         <div class="input-field col s12">
-           <p class="range-field">
-               <input type="range" id="test5" min="1" max="48" />
-            </p>
-         </div>
-       </div>
-	    
+
 	    <div class="row">
-	      <div class="input-field col s6">
-	        <a class="waves-effect waves-light btn-large grey" href="#!"><i class="mdi-navigation-close left"></i>Cancel</a>
-	      </div>
-	      <div class="input-field col s6">
-	        <a class="waves-effect waves-light btn-large cyan right"><i class="mdi-navigation-check left"></i>Save</a>
+	      <div class="input-field col s12">
+	        <a class="waves-effect waves-light btn-large cyan right" 
+            ng-disabled="!orderCtrl.order.description || !orderCtrl.order.product || !orderCtrl.order.quantity"
+            ng-click="orderCtrl.create(orderCtrl.order)"><i class="mdi-navigation-check left"></i>Save</a>
 	      </div>
 	    </div>
 
 	  </form>
 	</div>
 
-	<script type="text/javascript">
-      $(document).ready(function() {
-         $('select').material_select();
-      });
-   </script>
 </div><!-- end container -->
+

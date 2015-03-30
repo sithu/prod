@@ -12,5 +12,9 @@ module.exports.models = {
   // i.e. the name of one of your app's connections (see `config/connections.js`)
   //
   // (defaults to localDiskDb)
-  connection: 'prodPostgresServer'
+  connection: 'prodPostgresServer',
+
+  // auto-migrate, but attempt to keep my existing data (experimental)
+  // TODO: change it to 'safe' after development
+  migrate: 'alter'
 };

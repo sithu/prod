@@ -1,0 +1,17 @@
+<div class="container">
+
+	<h3 class="cyan-text">{{homeCtrl.tableTitle}}</h3>
+
+	<table class="hoverable">
+		<tr ng-repeat="o in homeCtrl.orders">
+	    	<td>{{ o.id }}</td>
+	    	<td>{{ o.description }}</td>
+	    	<td>{{ o.status }}</td>
+		</tr>
+	</table>
+
+</div>
+<!-- side + button -->
+<div class="right-add-icon">
+	<a class="btn-floating btn-large waves-effect waves-light cyan right" href="#/new_order"><i class="mdi-content-add"></i></a>
+</div>

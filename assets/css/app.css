@@ -1,16 +1,59 @@
 /* Any overrides to foundation.css app.css */
 /* vertical space between the body content and navigation bar */
+/*
 nav {
 	margin-bottom: 30px;
 }
-/* fix side nav bar hover height */
+*/
+/* fix side nav bar hover height
 ul.side-nav :hover {
 	height: 63px;
 }
+*/
+
+.logo {
+    position: absolute;
+    color: white;
+    display: inline-block;
+    padding: 0; 
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 0; 
+	font-size: 1.24rem;
+    line-height: 1.804rem;
+	margin: 1.2rem 0 0.656rem 0; 
+} 
+
 /* + icon */
-.right-add-icon {
-	padding-top: 25px;
-	padding-right: 50px;
-   padding-bottom: 60px;
-   padding-left: 25px;
+.right-icon {
+	bottom: 45px; 
+	right: 24px;
 }
+
+/* product icon color
+.mdi-action-find-in-page:before {
+	color: black;
+}
+*/
+footer {
+	color: #FFF;
+	background: #00bcd4;
+	text-align: left;
+	width: 100%;
+	padding: 10px 0;
+	position: relative;
+}
+
+/* Place the padding for side nav bar */
+/*
+header, main, footer {
+    padding-left: 240px;
+}
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+      padding-left: 0;
+    }
+}
+*/

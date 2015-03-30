@@ -12,6 +12,9 @@ module.exports.bootstrap = function (cb) {
 	// FIXME: need to resolve express loading issue
 	//require('express-helpers')(sails.hooks.http.app);
 
+	// Enalbes Passport
+	sails.services.passport.loadStrategies();
+
 	// It's very important to trigger this callack method when you are finished 
  	// with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
 	cb();
