@@ -1,6 +1,6 @@
 <div class="container">
 
-	<h4 class="cyan-text">{{homeCtrl.tableTitle}}</h4>
+	<h5 class="blue-text">{{homeCtrl.tableTitle}}</h5>
 
 	<table class="striped">
 		<thead>
@@ -13,7 +13,7 @@
 		<tr ng-repeat="o in homeCtrl.orders">
 	    	<td>{{ o.id }}</td>
 	    	<td>{{ o.description }}</td>
-	    	<td>{{ o.status }}</td>
+	    	<td>{{ o.status }} <i class="fa fa-cog fa-spin"></i></td>
 		</tr>
 	</table>
 		
@@ -26,10 +26,10 @@
 	</a>
 	<ul>
       <li>
-      	<a class="btn-floating cyan" href="#"><i class="large mdi-action-home"></i></a>
+      	<a class="btn-floating yellow" href="#"><i class="large mdi-action-home"></i></a>
 		</li>
 		<li>
-      	<a class="btn-floating blue darken-1" href="#/new_order"><i class="large mdi-content-add"></i></a>
+      	<a class="btn-floating cyan darken-1" href="#/new_order"><i class="large mdi-content-add"></i></a>
       </li>
    </ul>
 </div>

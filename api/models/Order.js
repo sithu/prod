@@ -30,6 +30,8 @@ module.exports = {
          min: 1
       },
 
+      color : { type: 'string' },
+      
       completedQuantity : { 
          type: 'integer',
          defaultsTo: '0'

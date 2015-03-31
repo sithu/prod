@@ -13,7 +13,8 @@
     "angular-route": "1.3.*",
     "modernizr": "~2.8.3",
     "modernizr-mixin": "~2.0.0",
-    "materialize": "~0.95.3"
+    "materialize": "~0.95.3",
+    "font-awesome": "~4.3.0"
   },
   "devDependencies": {
     "angular-mocks": "1.3.*",

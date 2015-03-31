@@ -1,5 +1,5 @@
-angular.module('prod').controller('ProductCtrl', ['$http', 
-	function($http) {
+angular.module('prod').controller('ProductCtrl', ['$http', '$location',
+	function($http, $location) {
 		this.title = 'New Product';
 		this.colors = [ 
 			'red', 'yellow', 'green', 'blue', 'black', 'cyan' 
@@ -32,9 +32,11 @@ angular.module('prod').controller('ProductCtrl', ['$http',
 			$http.post('/api/v1/product', product)
 				.success(function(data) {
 					console.log(data);
+					$location.path('/products');
 				})
 				.error(function(data) {
 					console.log("Error:" + data);
+					toast('Failed to add this new product!', 4000);
 				});
 		}; // end create()
 

@@ -36,6 +36,14 @@ angular.module('prod', [
             templateUrl : 'views/pages/new_product.html',
             controller  : 'ProductCtrl as productCtrl'
         })
+        .when('/raw_materials', {
+            templateUrl : 'views/pages/raw_materials.html',
+            controller  : 'RawMaterialListCtrl as rawMaterialListCtrl'
+        })
+        .when('/new_raw_material', {
+            templateUrl : 'views/pages/new_raw_material.html',
+            controller  : 'RawMaterialCtrl as rawMaterialCtrl'
+        })
         .when('/login', {
             templateUrl : 'views/pages/login.html',
             controller : 'LoginCtrl as loginCtrl'
@@ -112,22 +120,63 @@ angular.module('prod').controller('LoginCtrl', [ '$http', 'UserService',
 
 ]);
 angular.module('prod').controller('OrderCtrl', [
-	function() {
+	'ProductService',
+	'OrderService',
+	'$location',
+	function(ProductService, OrderService, $location) {
 		this.title = 'New Order';
 		this.order = {};
-		this.order.description = '';
-		this.order.product = '';
+		this.order.name = '';
 		this.order.quantity = '';
+		this.priority = [ 'Express', 'Can Wait', 'Regular' ];
 
-		this.create = function(order) {
-			console.log("creating a new order:" + order.product + ":" + order.quantity);
+		var self = this;
+		self.products = [];
+		self.selectedProduct = null;
+		self.colors = [];
+		self.selectedColor = null;
+		self.selectedPriority = 'Regular';
+
+		ProductService.getProducts().then(function(resp) {
+			self.products = resp.data;
+			if (self.products && self.products.length > 0) {
+				self.selectedProduct = self.products[0];
+				self.colors = self.selectedProduct.color.split(',');
+				if (self.colors && self.colors.length > 0) {
+					self.selectedColor = self.colors[0];
+				}
+			}
+		});
+
+		self.updateColors = function() {
+			if (self.selectedProduct.color) {
+				self.colors = self.selectedProduct.color.split(',');
+				if (self.colors && self.colors.length > 0) {
+					self.selectedColor = self.colors[0];
+				}
+			} else {
+				self.colors = [];
+			}
 		}
+
+		self.create = function(order) {
+			order.forProduct = self.selectedProduct.id;
+			order.color = self.selectedColor;
+			console.log(order);
+			
+			OrderService.createOrder(order).then(function(success) {
+				$location.path('/');
+				toast('Your new order was successfully added!', 4000);
+			}, function(err) {
+				toast('Failed to create this new order!', 4000);
+			});
+		};		
 
 	}
 
 ]);
-angular.module('prod').controller('ProductCtrl', ['$http', 
-	function($http) {
+angular.module('prod').controller('ProductCtrl', ['$http', '$location',
+	function($http, $location) {
 		this.title = 'New Product';
 		this.colors = [ 
 			'red', 'yellow', 'green', 'blue', 'black', 'cyan' 
@@ -160,9 +209,11 @@ angular.module('prod').controller('ProductCtrl', ['$http',
 			$http.post('/api/v1/product', product)
 				.success(function(data) {
 					console.log(data);
+					$location.path('/products');
 				})
 				.error(function(data) {
 					console.log("Error:" + data);
+					toast('Failed to add this new product!', 4000);
 				});
 		}; // end create()
 
@@ -181,6 +232,7 @@ angular.module('prod').controller('ProductListCtrl', ['$http',
 				self.products = response.data;
 			}, function(errResponse) {
 				console.error('Error while fetching products:' + errResponse);
+				toast('Failed to load all products!', 4000);
 			});
 		};
 
@@ -189,6 +241,85 @@ angular.module('prod').controller('ProductListCtrl', ['$http',
 	}
 
 ]);
+angular.module('prod').controller('RawMaterialCtrl', [
+	function() {
+		this.tableTitle = 'Order List';
+		this.orders = [
+			{
+				id: 1, description: 'A Order', status: 'Completed'
+			},
+			{
+				id: 2, description: 'B Order', status: 'Waiting'
+			},
+			{
+				id: 3, description: 'A Order', status: 'Completed'
+			},
+			{
+				id: 4, description: 'B Order', status: 'Waiting'
+			},
+			{
+				id: 5, description: 'A Order', status: 'Completed'
+			},
+			{
+				id: 6, description: 'B Order', status: 'Waiting'
+			},
+			{
+				id: 7, description: 'A Order', status: 'Completed'
+			},
+			{
+				id: 8, description: 'B Order', status: 'Waiting'
+			},
+			{
+				id: 9, description: 'A Order', status: 'Completed'
+			},
+			{
+				id: 10, description: 'B Order', status: 'Waiting'
+			}
+		];
+	}
+
+]);
+angular.module('prod').controller('RawMaterialListCtrl', ['$http',
+	function($http) {
+		this.title = 'Raw Material List';
+		var self = this;
+		self.products = [];
+
+		var getAllProducts = function() {
+			return $http.get('/api/v1/product').then(function(response) {
+				console.log(response.data);
+				self.products = response.data;
+			}, function(errResponse) {
+				console.error('Error while fetching products:' + errResponse);
+				toast('Failed to load all products!', 4000);
+			});
+		};
+
+		getAllProducts();
+
+	}
+
+]);
+angular.module('prod').factory('OrderService', ['$http', 
+	function($http) {
+		return {
+			getOrders: function() {
+				return $http.get('/api/v1/order');
+			},
+
+			createOrder: function(order) {
+				return $http.post('/api/v1/order', order);
+			}
+		} // end return
+}]);
+angular.module('prod').factory('ProductService', ['$http', 
+	function($http) {
+		return {
+			getProducts: function() {
+				return $http.get('/api/v1/product');
+			}
+		} // end return
+}]);
 angular.module('prod').factory('UserService', [function() {
    var sdo = {
       isLogged: false,

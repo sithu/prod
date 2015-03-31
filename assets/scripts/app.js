@@ -36,6 +36,14 @@ angular.module('prod', [
             templateUrl : 'views/pages/new_product.html',
             controller  : 'ProductCtrl as productCtrl'
         })
+        .when('/raw_materials', {
+            templateUrl : 'views/pages/raw_materials.html',
+            controller  : 'RawMaterialListCtrl as rawMaterialListCtrl'
+        })
+        .when('/new_raw_material', {
+            templateUrl : 'views/pages/new_raw_material.html',
+            controller  : 'RawMaterialCtrl as rawMaterialCtrl'
+        })
         .when('/login', {
             templateUrl : 'views/pages/login.html',
             controller : 'LoginCtrl as loginCtrl'

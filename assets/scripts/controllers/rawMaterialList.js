@@ -1,6 +1,6 @@
-angular.module('prod').controller('ProductListCtrl', ['$http',
+angular.module('prod').controller('RawMaterialListCtrl', ['$http',
 	function($http) {
-		this.title = 'Product List';
+		this.title = 'Raw Material List';
 		var self = this;
 		self.products = [];
 
