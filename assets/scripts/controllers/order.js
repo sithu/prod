@@ -45,9 +45,10 @@ angular.module('prod').controller('OrderCtrl', [
 			
 			OrderService.createOrder(order).then(function(success) {
 				$location.path('/');
-				toast('Your new order was successfully added!', 4000);
+				Materialize.toast('Your new order was successfully added!', 4000);
 			}, function(err) {
-				toast('Failed to create this new order!', 4000);
+				console.log(err);
+				Materialize.toast('Failed to create this new order!', 4000);
 			});
 		};		
 

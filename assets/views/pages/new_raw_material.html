@@ -1,97 +1,86 @@
-<div class="container" ng-controller="OrderCtrl as o">
-<div class="container-medium">
+<div class="container" ng-controller="RawMaterialCtrl as m">
 
-	<h5 class="blue-text">{{o.title}}</h5>
+	<h5 class="cyan-text">{{m.title}}</h5>
 
 	  	<div class="row">
 	      <div class="input-field col s12">
             <i class="mdi-action-description prefix"></i>
 	        <input id="name" type="text" class="validate" 
-            ng-model="o.order.name" required>
-	        <label for="name">Order Description</label>
+            ng-model="m.material.name" required>
+	        <label for="name">Raw Material Name</label>
 	      </div>
-	    </div>
-	    
+	   </div>
+	         
       <div class="row">
-	      <div class="input-field col s4">
-            <i class="mdi-action-find-in-page prefix"></i>
-	         <label for="product">Select Product:</label>
+         <div class="input-field col s4">
+            <i class="fa fa-money prefix"></i>
+            <input id="cost" type="text" class="validate" ng-model="m.material.cost" required>
+            <label for="cost">Unit Cost (kyat)</label>
          </div>
          <div class="input-field col s8">
-            <select class="browser-default" 
-               ng-model="o.selectedProduct" 
-               ng-options="product.name for product in o.products"
-               ng-change="o.updateColors()">
-            </select>
-         </div>
+              <p class="range-field range-slider">
+                  <input type="range" id="weight-slider" min="1" max="5000" ng-model="m.material.cost"/>
+               </p>
+            </div>
       </div>
 
       <div class="row">
          <div class="input-field col s4">
-            <i class="mdi-image-color-lens prefix"></i>
-            <label for="color">Select Color:</label>
+            <i class="mdi-device-signal-wifi-0-bar prefix"></i>
+            <input id="weight" type="text" class="validate" ng-model="m.material.weight" required>
+            <label for="weight">Unit Weight (oz)</label>
          </div>
          <div class="input-field col s8">
-            <select class="browser-default" 
-               ng-model="o.selectedColor" 
-               ng-options="c as c for c in o.colors">
-            </select>
-         </div>
-      </div>
-
-      <div class="row">
-         <div class="input-field col s4">
-            <i class="mdi-action-schedule prefix"></i>
-            <label for="priority">Priority</label>
-         </div>
-         <div class="input-field col s8">
-            <form action="#">
-               <span ng-repeat="p in o.priority">
-                  <input name="group1" type="radio" id="{{p}}" 
-                     ng-model="o.selectedPriority"/>
-                  <label for="{{p}}">{{p}}</label>
-               </span>
-            </form>
-         </div>
+              <p class="range-field range-slider">
+                  <input type="range" id="weight-slider" min="1" max="2000" ng-model="m.material.weight"/>
+               </p>
+            </div>
       </div>
 
       <div class="row">
          <div class="input-field col s4">
             <i class="mdi-editor-format-list-numbered prefix"></i>
-            <input id="quantity" type="text" class="validate" ng-model="o.order.quantity" required>
-            <label for="quantity">Quantity</label>
+            <input id="count" type="text" class="validate" ng-model="m.material.count" required>
+            <label for="count">Quantity (bag)</label>
          </div>
          <div class="input-field col s8">
               <p class="range-field range-slider">
-                  <input type="range" id="quantity-slider" min="1" max="2000" ng-model="o.order.quantity"/>
+                  <input type="range" id="weight-slider" min="1" max="2000" ng-model="m.material.count"/>
                </p>
             </div>
       </div>
       
-      </br>
+      <div class="row">
+         <div class="input-field col s2">
+            <i class="mdi-action-find-in-page prefix"></i>
+            <label for="product">For Product:</label>
+         </div>
+         <div class="input-field col s5">
+            <select class="browser-default" 
+               ng-model="m.selectedProduct" 
+               ng-options="product.name for product in m.products"
+               ng-change="m.updateColors()">
+            </select>
+         </div>
+         <div class="input-field col s5">
+            <select class="browser-default" 
+               ng-model="m.selectedColor" 
+               ng-options="c as c for c in m.colors">
+            </select>
+         </div>
+      </div>
 
       <div class="row">
          <div class="input-field col s12">
-            <a class="waves-effect waves-light btn-large btn-wide blue" ng-click="o.create(o.order)">Save</a>
+            <a class="waves-effect waves-light btn-large btn-wide cyan" ng-click="m.create(m.material)">Save</a>
          </div>	  
 	  </div>
 
-</div>
 </div><!-- end container -->
 
 <!-- side flooding action button -->
 <div class="fixed-action-btn right-icon">
-   <a class="btn-floating btn-large waves-effect red">
-      <i class="large mdi-navigation-more-vert"></i>
+   <a href="#/raw_materials" class="btn-floating btn-large waves-effect red">
+      <i class="large mdi-action-delete"></i>
    </a>
-   <ul>
-      <li>
-         <a class="btn-floating red" href="#"><i class="large mdi-action-home"></i></a>
-      </li>
-      <li>
-         <a class="btn-floating grey darken-1" href="#!">
-            <i class="large mdi-action-delete"></i>
-         </a>
-      </li>
-   </ul>
 </div>

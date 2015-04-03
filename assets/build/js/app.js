@@ -166,9 +166,10 @@ angular.module('prod').controller('OrderCtrl', [
 			
 			OrderService.createOrder(order).then(function(success) {
 				$location.path('/');
-				toast('Your new order was successfully added!', 4000);
+				Materialize.toast('Your new order was successfully added!', 4000);
 			}, function(err) {
-				toast('Failed to create this new order!', 4000);
+				console.log(err);
+				Materialize.toast('Failed to create this new order!', 4000);
 			});
 		};		
 
@@ -242,51 +243,70 @@ angular.module('prod').controller('ProductListCtrl', ['$http',
 
 ]);
 angular.module('prod').controller('RawMaterialCtrl', [
-	function() {
-		this.title = 'Order List';
-		this.orders = [
-			{
-				id: 1, description: 'A Order', status: 'Completed'
-			},
-			{
-				id: 2, description: 'B Order', status: 'Waiting'
-			},
-			{
-				id: 3, description: 'A Order', status: 'Completed'
-			},
-			{
-				id: 4, description: 'B Order', status: 'Waiting'
-			},
-			{
-				id: 5, description: 'A Order', status: 'Completed'
-			},
-			{
-				id: 6, description: 'B Order', status: 'Waiting'
-			},
-			{
-				id: 7, description: 'A Order', status: 'Completed'
-			},
-			{
-				id: 8, description: 'B Order', status: 'Waiting'
-			},
-			{
-				id: 9, description: 'A Order', status: 'Completed'
-			},
-			{
-				id: 10, description: 'B Order', status: 'Waiting'
+	'ProductService',
+	'RawMaterialService',
+	'$location',
+	function(ProductService, RawMaterialService, $location) {
+		this.title = 'New Raw Material';
+		
+		this.material = {};
+
+		var self = this;
+		self.products = [];
+		self.selectedProduct = null;
+		self.colors = [];
+		self.selectedColor = null;
+		
+		ProductService.getProducts().then(function(resp) {
+			self.products = resp.data;
+			if (self.products && self.products.length > 0) {
+				self.selectedProduct = self.products[0];
+				self.colors = self.selectedProduct.color.split(',');
+				if (self.colors && self.colors.length > 0) {
+					self.selectedColor = self.colors[0];
+				}
 			}
-		];
+		});
+
+		self.updateColors = function() {
+			if (self.selectedProduct.color) {
+				self.colors = self.selectedProduct.color.split(',');
+				if (self.colors && self.colors.length > 0) {
+					self.selectedColor = self.colors[0];
+				}
+			} else {
+				self.colors = [];
+			}
+		}
+
+		self.create = function(material) {
+			material.forProduct = self.selectedProduct.id;
+			material.color = self.selectedColor;
+			console.log(material);
+
+			RawMaterialService.createRawMaterial(material).then(function(success) {
+				$location.path('/raw_materials');
+				Materialize.toast(material.name +' was successfully added!', 4000);
+			}, function(err) {
+				console.log(err);
+				Materialize.toast('Failed to add ' + material.name, 4000);	
+			});
+		}
+
 	}
 
 ]);
-angular.module('prod').controller('RawMaterialListCtrl', ['$http',
-	function($http) {
+angular.module('prod').controller('RawMaterialListCtrl', [
+	'RawMaterialService',
+	function(RawMaterialService) {
 		this.title = 'Raw Material List';
+		
 		var self = this;
 		self.rawMaterials = [];
 
-		
-
+		RawMaterialService.getRawMaterials().then(function(resp) {
+			self.rawMaterials = resp.data;
+		});
 	}
 
 ]);
@@ -307,6 +327,18 @@ angular.module('prod').factory('ProductService', ['$http',
 		return {
 			getProducts: function() {
 				return $http.get('/api/v1/product');
+			}
+		} // end return
+}]);
+angular.module('prod').factory('RawMaterialService', ['$http', 
+	function($http) {
+		return {
+			getRawMaterials: function() {
+				return $http.get('/api/v1/rawmaterial');
+			},
+
+			createRawMaterial: function(material) {
+				return $http.post('/api/v1/rawmaterial', material);
 			}
 		} // end return
 }]);

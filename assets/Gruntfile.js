@@ -16,6 +16,7 @@ module.exports = function (grunt) {
             'bower_components/ustream-embedapi/src/ustream-embedapi.js',
             'bower_components/materialize/dist/js/materialize.js',
             'bower_components/angular-materialize/dist/angular-materialize.js',
+            'bower_components/sails.io.js/dist/sails.io.js',
             'bower_components/angular-sails/dist/angular-sails.min.js'
         ],
         appFiles = ['app.js', 'scripts/{,*/}*.js'],

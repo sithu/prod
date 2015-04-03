@@ -31,7 +31,7 @@ module.exports = {
       },
 
       color : { type: 'string' },
-      
+
       completedQuantity : { 
          type: 'integer',
          defaultsTo: '0'
@@ -96,8 +96,8 @@ module.exports = {
             if(err) return next(err);
             // Calculates number of raw material bags needed
             var totalProductWeight = count * product.weight;
-            attributes.rawMaterialQuantityRequired = totalProductWeight / product.rawMaterial.weight;
-            
+            // round up to integer
+            attributes.rawMaterialQuantityRequired = Math.ceil(totalProductWeight / product.rawMaterial.weight);
             // TODO: inventory feature: update raw material inventory
             // product.rawMaterial.count -= attributes.rawMaterialQuantityRequired;
 
@@ -105,7 +105,6 @@ module.exports = {
             var totalHrs = (count * product.timeToBuildInSec) / (60 * 60);
             // round to 2 decimal places
             attributes.estimatedTimeToFinishInHour = +(Math.round(totalHrs + "e+2")  + "e-2");
-
             next();
          });
    },

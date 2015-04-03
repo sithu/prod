@@ -6,18 +6,19 @@
 		<thead>
         	<tr>
               <th data-field="id">Name</th>
-              <th data-field="price">Unit Weight</th>
-              <th data-field="name">Cost</th>
-              <th data-field="price">Count</th>
-              <th data-field="price">Color</th>
+              <th data-field="price">Unit Weight (oz)</th>
+              <th data-field="name">Unit Cost (kyat)</th>
+              <th data-field="price">Num Bag</th>
             </tr>
         </thead>
         <tr ng-repeat="m in ml.rawMaterials">
-	    	<td>{{ m.name }}</td>
-	    	<td>{{ m.weight }} oz</td>
-	    	<td>{{ m.price }} kyat</td>
+	    	<td>
+	    		<i class="fa fa-circle fa-lg {{m.color}}-text"></i>
+	    		&nbsp;{{ m.name }} 
+	    	</td>
+	    	<td>{{ m.weight }}</td>
+	    	<td>{{ m.cost }}</td>
 	    	<td>{{ m.count }}</td>
-	    	<td><i class="small mdi-action-invert-colors red-text"></i>red</td>
 	    </tr>
 	</table>
 
@@ -25,15 +26,7 @@
 
 <!-- side flooding action button -->
 <div class="fixed-action-btn right-icon">
-	<a class="btn-floating btn-large waves-effect red">
-		<i class="large mdi-navigation-more-vert"></i>
+	<a href="#/new_raw_material" class="btn-floating btn-large waves-effect red">
+		<i class="large mdi-content-add"></i>
 	</a>
-	<ul>
-      <li>
-      	<a class="btn-floating red" href="#"><i class="large mdi-action-home"></i></a>
-		</li>
-		<li>
-      	<a class="btn-floating cyan darken-1" href="#/new_raw_material"><i class="large mdi-content-add"></i></a>
-      </li>
-   </ul>
 </div>

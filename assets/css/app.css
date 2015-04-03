@@ -42,6 +42,11 @@ ul.side-nav :hover {
 	padding-top: 5px;
 }
 
+/* shorten the height of row */
+.row {
+    margin-bottom: 15px;
+}
+
 /* input form div */
 .container-medium {
 	width: 65%;
@@ -82,6 +87,7 @@ footer {
 h5 {
 	font-family: "Roboto";
 	font-weight: 300;
+	text-align: center;
 }
 
 /* label focus color */
