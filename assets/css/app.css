@@ -42,6 +42,12 @@ ul.side-nav :hover {
 	padding-top: 5px;
 }
 
+/* input form div */
+.container-medium {
+	width: 65%;
+	margin: 0 auto;
+}
+
 /* product icon color
 .mdi-action-find-in-page:before {
 	color: black;
@@ -56,10 +62,48 @@ footer {
 	position: relative;
 }
 
+.roboto {
+    font-family: "Roboto";
+}
+
+.roboto-c {
+    font-family: "Roboto Condensed";
+}
+
+.fw-100 { font-weight: 100; }
+.fw-200 { font-weight: 200; }
+.fw-300 { font-weight: 300; }
+.fw-400 { font-weight: 400; }
+.fw-500 { font-weight: 500; }
+.fw-700 { font-weight: 700; }
+.fw-900 { font-weight: 900; }
+
+
+h5 {
+	font-family: "Roboto";
+	font-weight: 300;
+}
+
+/* label focus color */
+.input-field input[type=text]:focus + label {
+	color: #00bcd4;
+}
+
+/* label underline focus color */
+.input-field input[type=text]:focus {
+	border-bottom: 1px solid #00bcd4;
+    box-shadow: 0 1px 0 0 #80deea;
+}
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+	color: #00bcd4;
+}
+
 /* Place the padding for side nav bar */
 /*
 header, main, footer {
-    padding-left: 240px;
+    padding-left: 210px;
 }
 
 @media only screen and (max-width : 992px) {

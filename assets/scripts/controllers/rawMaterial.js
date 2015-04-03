@@ -1,6 +1,6 @@
 angular.module('prod').controller('RawMaterialCtrl', [
 	function() {
-		this.tableTitle = 'Order List';
+		this.title = 'Order List';
 		this.orders = [
 			{
 				id: 1, description: 'A Order', status: 'Completed'

@@ -4,7 +4,7 @@
 $(document).ready(function() {
     $(".button-collapse").sideNav(
         {
-            menuWidth: 240, // Default is 240
+            menuWidth: 210, // Default is 240
             edge: 'left', // Choose the horizontal origin
             closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
         }
@@ -243,7 +243,7 @@ angular.module('prod').controller('ProductListCtrl', ['$http',
 ]);
 angular.module('prod').controller('RawMaterialCtrl', [
 	function() {
-		this.tableTitle = 'Order List';
+		this.title = 'Order List';
 		this.orders = [
 			{
 				id: 1, description: 'A Order', status: 'Completed'
@@ -283,19 +283,9 @@ angular.module('prod').controller('RawMaterialListCtrl', ['$http',
 	function($http) {
 		this.title = 'Raw Material List';
 		var self = this;
-		self.products = [];
+		self.rawMaterials = [];
 
-		var getAllProducts = function() {
-			return $http.get('/api/v1/product').then(function(response) {
-				console.log(response.data);
-				self.products = response.data;
-			}, function(errResponse) {
-				console.error('Error while fetching products:' + errResponse);
-				toast('Failed to load all products!', 4000);
-			});
-		};
-
-		getAllProducts();
+		
 
 	}
 
