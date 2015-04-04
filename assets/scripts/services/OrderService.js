@@ -2,7 +2,7 @@ angular.module('prod').factory('OrderService', ['$http',
 	function($http) {
 		return {
 			getOrders: function() {
-				return $http.get('/api/v1/order');
+				return $http.get('/api/v1/order?sort=id DESC');
 			},
 
 			createOrder: function(order) {

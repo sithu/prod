@@ -11,6 +11,15 @@ ul.side-nav :hover {
 }
 */
 
+/* hide shadow of the nav bar */
+.side-nav {
+    box-shadow: none;
+
+}
+nav {
+	box-shadow: none;
+}
+
 .logo {
     position: absolute;
     color: white;

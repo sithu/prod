@@ -1,36 +1,36 @@
-<div class="container">
+<div class="container" ng-controller="OrderListCtrl as this">
 
-	<h5 class="cyan-text">{{homeCtrl.tableTitle}}</h5>
+	<h5 class="cyan-text">{{this.title}}</h5>
 
 	<table class="striped">
 		<thead>
         	<tr>
               <th data-field="id">Order ID</th>
-              <th data-field="name">Description</th>
-              <th data-field="price">Status</th>
-        	</tr>
+              <th data-field="product">Product</th>
+              <th data-field="completion">Completion</th>
+              <th data-field="status">Status</th>
+              <th data-field="createdAt">Created At</th>
+              <th data-field="createdAt">Production Start</th>
+              <th data-field="createdAt">Production End</th>
+            </tr>
         </thead>
-		<tr ng-repeat="o in homeCtrl.orders">
+		<tr ng-repeat="o in this.orders">
 	    	<td>{{ o.id }}</td>
-	    	<td>{{ o.description }}</td>
-	    	<td>{{ o.status }} <i class="fa fa-cog fa-spin"></i></td>
-		</tr>
+	    	<td class="{{o.color}}-text">{{ o.forProduct.name }}</td>
+	    	<td>{{ o.completedQuantity }} of {{ o.quantity }}</td>
+	    	<td>{{ o.status }}</td>
+	    	<td>{{ o.createdAt | date:"dd.MM.yyyy" }}</td>
+	    	<td>{{ o.productionStartAt | date:"h:mma" }}</td>
+	    	<td>{{ o.productionEndAt | date:"h:mma" }}</td>
+	    </tr>
 	</table>
 		
 </div><!-- container -->
 
 <!-- side flooding action button -->
 <div class="fixed-action-btn right-icon">
-	<a class="btn-floating btn-large waves-effect red">
-		<i class="large mdi-navigation-more-vert"></i>
-	</a>
-	<ul>
-      <li>
-      	<a class="btn-floating red" href="#"><i class="large mdi-action-home"></i></a>
-		</li>
-		<li>
-      	<a class="btn-floating cyan darken-1" href="#/new_order"><i class="large mdi-content-add"></i></a>
-      </li>
-   </ul>
+	<a href="#/new_order" class="btn-floating btn-large waves-effect red">
+		<i class="large mdi-content-add"></i>
+	</a>	
 </div>
 
